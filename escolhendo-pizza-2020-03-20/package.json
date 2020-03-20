@@ -1,0 +1,23 @@
+{
+  "name": "dojo-2019-10-11",
+  "version": "1.0.0",
+  "description": "Escolhendo uma pizza",
+  "main": "app.js",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^6.2.1"
+  },
+  "scripts": {
+    "test": "mocha --reporter nyan"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cuponomia/dojo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cuponomia/dojo/issues"
+  },
+  "homepage": "https://github.com/cuponomia/dojo#readme"
+}
