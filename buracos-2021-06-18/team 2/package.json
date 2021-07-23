@@ -1,0 +1,12 @@
+{
+  "name": "teste",
+  "version": "0.0.1",
+  "scripts": {
+    "test": "mocha --reporter nyan --require coffeescript/register unit_test.coffee"
+  },
+  "dependencies": {
+    "coffeescript": "^2.5.1",
+    "mocha": "^9.0.1",
+    "nodeunit": "^0.11.3"
+  }
+}
