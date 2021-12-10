@@ -1,0 +1,17 @@
+version: '3.3'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "8080:15672"
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+  elasticsearch:
+    image: elasticsearch:7.14.1
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      discovery.type: "single-node"
