@@ -3,13 +3,24 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var app = express();
 var url = String(process.env.HOSTNAME).split("-");
+var postImage = require("./postImage.js");
+
+const fetch = require("node-fetch");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post("/", function(req, res) {
-  console.log(req.body);
-  res.send(req.body);
+app.post("/", async function(req, res) {
+  console.log('req.body', req.body);
+  
+  const lastMemeData = await fetch('https://xkcd.com/info.0.json').then((res) => res.json()).catch(() => { console.log('deu banana') });
+  const currentNum = Math.floor(Math.random() * lastMemeData.num);
+  const currentMemeData = await fetch(`https://xkcd.com/${currentNum}/info.0.json`).then((res) => res.json()).then(result => result).catch(() => { console.log('deu banana') });
+  console.log(currentMemeData)
+  
+  postImage('#team_dev');
+
+  res.sendStatus(200);
 });
 
 // This route processes GET requests to "/"`

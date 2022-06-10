@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@slack/web-api": "^6.7.1",
     "express": "^4.18.1",
-    "@slack/web-api": "^6.7.1"
+    "node-fetch": "^2.6.7"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

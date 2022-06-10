@@ -10,7 +10,7 @@ const currentTime = new Date().toTimeString();
   try {
     // Use the `chat.postMessage` method to send a message from this app
     await web.chat.postMessage({
-      channel: '#team_dev',
+      channel: '@joão',
       text: `The current time is ${currentTime}`,
     });
     console.log('Message posted!');
