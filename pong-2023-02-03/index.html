@@ -1,0 +1,180 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .field {
+                background-color: #000;
+                
+            }
+
+            canvas {
+              border: 1px solid red; 
+              width: '100%';
+              height: '100%';             
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="gameCanvas" width="600" height="500" ></canvas>
+
+        <script>
+
+            let canvas = document.getElementById("gameCanvas")
+            let ctx = canvas.getContext("2d");
+            document.addEventListener('keydown', moveRect);
+
+            class Ball{
+                x = canvas.width / 2;
+                y = canvas.height / 2;
+                speedX = 2;
+                speedY = 2;
+                ballRadius = 10;
+            }
+
+             class Paddle {
+                height = 0;
+                width = 0;
+                positionX = 0;
+                positionY = 0;
+                color = '#FFFFFF';
+                moveKeys = '';
+
+                constructor({ height, width, positionX, positionY, color, moveKeys }) {
+                    this.height = height;
+                    this.width = width;
+                    this.positionX = positionX;
+                    this.positionY = positionY;
+                    this.color = color;
+                    this.moveKeys = moveKeys
+                }
+
+                onEventListener(event) {
+                    if(event.key == this.moveKeys.up){
+                        this.moveUp();
+                    }
+                    else if(event.key == this.moveKeys.down){
+                        this.moveDown();
+                    }
+                }
+
+                moveUp(){
+                    if (this.positionY <= 0) {
+                        this.positionY = 0;
+                        return;
+                    }
+
+                    this.positionY -= 10;
+                }
+
+                moveDown(){
+                    if (this.positionY + this.height >= canvas.height) {
+                        this.positionY = canvas.height - this.height;
+                        return;
+                    }
+
+                    this.positionY += 10;
+                }
+            }
+            
+            let leftPaddle = new Paddle({ 
+                height: 50, 
+                width: 10, 
+                positionX: 5, 
+                positionY: 
+                canvas.height / 2, 
+                color: 'black',
+                moveKeys: {
+                    up: 'w',
+                    down: 's',
+                }
+            });
+            let rightPaddle = new Paddle({ 
+                height: 50, width: 10, positionX: canvas.width - 15, positionY: canvas.height / 2, color: 'black',
+                moveKeys: {
+                    up: 'ArrowUp',
+                    down: 'ArrowDown',
+                }
+            });
+
+            
+            
+            // let x = canvas.width / 2;
+            // let y = canvas.height / 2;
+            // let speedX = 2;
+            // let speedY = 2;
+            // let ballRadius = 10;
+            let ball = new Ball();
+
+            function gameLoop(){
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                if(ball.x > canvas.width - ball.ballRadius) ball.speedX = (ball.speedX * -1)
+                if(ball.x < ball.ballRadius) ball.speedX = (ball.speedX * -1)
+                if(ball.y > canvas.height - ball.ballRadius) ball.speedY = (ball.speedY * -1)
+                if(ball.y < ball.ballRadius) ball.speedY = (ball.speedY * -1)
+                ball.x += ball.speedX;
+                ball.y += ball.speedY;
+                
+                ctx.fillStyle = "red";
+                ctx.fillRect(leftPaddle.positionX, leftPaddle.positionY, leftPaddle.width, leftPaddle.height)
+                ctx.fillRect(rightPaddle.positionX, rightPaddle.positionY, rightPaddle.width, rightPaddle.height)
+                
+
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.ballRadius, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.fillStyle = 'blue'
+                ctx.fill()
+
+                if (verifyPaddleCollision(ball, leftPaddle)) {
+                    ball.speedX = (ball.speedX * -1)
+                }
+                    
+                if (verifyPaddleCollision(ball, rightPaddle)) {
+                    ball.speedX = (ball.speedX * -1)
+                }
+            }
+            
+            
+
+            // return true if the rectangle and circle are colliding
+            function verifyPaddleCollision(circle, rect){
+                var distX = Math.abs(circle.x - rect.positionX - rect.width/2);
+                var distY = Math.abs(circle.y - rect.positionY - rect.height/2);
+
+                if (distX > (rect.width/2 + circle.ballRadius)) { return false; }
+                if (distY > (rect.height/2 + circle.ballRadius)) { return false; }
+
+                if (distX <= (rect.width/2)) { return true; } 
+                if (distY <= (rect.height/2)) { return true; }
+
+                var dx=distX-rect.width/2;
+                var dy=distY-rect.height/2;
+
+                /* if (circle.x > rect.positionX && rect.positionX < rect.positionX + rect.width && circle.positionY > rect.positionY && circle.positionY < rect.positionY + rect.height) {
+                    return true
+                    circle.speedX = -circle.speedX;
+                } */
+
+                return (dx*dx+dy*dy<=(circle.r*circle.r));
+            }
+
+            setInterval(gameLoop, 1000/60);
+
+           
+
+            function moveRect(event){
+                leftPaddle.onEventListener(event);
+                rightPaddle.onEventListener(event);
+            }
+        </script>
+    </body>
+</html>
+<!-- 
+          0  |  1
+
+    |                 |
+    |       o         |
+    |                 |
+    |                 |
+ -->
