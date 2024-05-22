@@ -1,0 +1,15 @@
+{
+  "name": "dojo_javascript_template",
+  "version": "1.0.0",
+  "description": "Template usado para criar dojos em javascript",
+  "main": "app.js",
+  "devDependencies": {
+    "mocha": "^10.4.0"
+  },
+  "scripts": {
+    "test": "mocha --reporter nyan"
+  },
+  "type": "module",
+  "author": "minggas",
+  "license": "ISC"
+}
